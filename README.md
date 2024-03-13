@@ -1,70 +1,87 @@
-# Getting Started with Create React App
+# 將React App發布為GitHub Page
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+請參考原文 [詳細說明](https://github.com/gitname/react-gh-pages)
 
-## Available Scripts
+此方法使用 `create-react-app` ，也請參考關於 [Create React App](https://github.com/facebook/create-react-app) 的說明.
 
-In the project directory, you can run:
+## 事前準備
 
-### `yarn start`
+確認本機已經有安裝 `Node.js`, `Git`，並且需要[GitHub](https://github.com/)帳號
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### 新建GitHub Repository
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+1. 登入GitHub帳號
+2. 前往[此連結](https://github.com/new) 創建新的儲存庫
+3. 依指示填寫表格
+4. 填妥後送出
 
-### `yarn test`
+此時，一個新的空儲存庫已經新增到你的 GitHub 帳號。
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 建立 React App
 
-### `yarn build`
+1. 打開終端機輸入以下指令
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+  ```bash
+  npx create-react-app react-gh-pages
+  // or
+  yarn create react-app react-gh-pages
+  ```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+2. 當React App專案完成，進到該專案根目錄下
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+  ```bash
+  cd react-gh-pages
+  ```
 
-### `yarn eject`
+### 安裝 `gh-pages` npm package
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```bash
+npm install gh-pages --save-dev
+// or
+yarn add -D gh-pages
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### 在 `package.json` 加入 `homepage`
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+使用文字編輯器或vi工具進行編輯
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```json
+{
+  "name": ...,
+  "version": ...,
+  "homepage": "https://gitname.github.io/react-gh-pages",
+  ...
+}
+```
 
-## Learn More
+### 在 `package.json` 中新增部署相關的指令
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+1. 使用文字編輯器或vim打開 `package.json`
+2. 在 `"scripts": {...}` 的地方，新增
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```json
+{
+  "scripts": {
+    "predeploy": "yarn build",
+    "deploy": "gh-pages -d build",
+    ...
+  }
+  ...
+}
+```
 
-### Code Splitting
+### 新增遠端儲存庫
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+```bash
+git remote add origin https://github.com/{username}/{repo-name}.git
+```
 
-### Analyzing the Bundle Size
+## 將 React App 推送至 GitHub
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+```bash
+yarn deploy
+```
 
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```bash
+yarn deploy -- -m "Deploy React app to GitHub Pages"
+```
